@@ -1,10 +1,7 @@
 package com.blackjack.game;
 
-/**
- * Interface for interacting with hands in a non-mutating way
- */
-public interface HandInterface
-{
+
+public interface HandInterface {
     int eval();
     boolean isBusted();
     boolean isBlackJack();

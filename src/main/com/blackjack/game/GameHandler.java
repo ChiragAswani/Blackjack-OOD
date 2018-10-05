@@ -9,11 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * The primary event loop for running the game.
- */
-public final class GameHandler
-{
+public final class GameHandler {
     private final PlayingDeck deck;
     private InputInterface userInterface;
     private final Player player;
@@ -21,8 +17,7 @@ public final class GameHandler
     private final List<Action> initialActions;
     private Action currentAction;
 
-    public GameHandler(final InputInterface userInterface, final PlayingDeck deck, final Player player )
-    {
+    public GameHandler(final InputInterface userInterface, final PlayingDeck deck, final Player player ) {
         this.userInterface = userInterface;
         this.deck = deck;
         this.player = player;
@@ -31,11 +26,7 @@ public final class GameHandler
         initialActions =  Arrays.asList(Action.DEAL);
     }
 
-    /**
-     * Game loop
-     */
-    public void run()
-    {
+    public void run() {
         currentAction = Action.RESTART;
 
         while ( currentAction != Action.QUIT )
@@ -73,23 +64,14 @@ public final class GameHandler
 
     }
 
-    /**
-     * Processes a double down action
-     */
-    private void doubleDown()
-    {
+    private void doubleDown() {
         int bet = player.getCurrentHand().getBet();
         Card card = deck.draw();
         outputDraw( player, card );
         player.doubleDown( card, bet );
         currentAction = Action.PLAY;
     }
-
-    /**
-     * Processes a deal action
-     */
-    private void deal()
-    {
+    private void deal() {
         shuffle();
 
         if ( player.getCurrentTotalChips() == 0 )
@@ -109,7 +91,6 @@ public final class GameHandler
         showHands();
 
         currentAction = Action.PLAY;
-        // if someone or both have a black jack this round is done
         if ( dealerHand.isBlackJack() || currentHand.isBlackJack() )
         {
             player.completeCurrentHand();
@@ -117,12 +98,7 @@ public final class GameHandler
             currentAction = Action.RESTART;
         }
     }
-
-    /**
-     * Determines the next action to be processed and sets it
-     */
-    private void play()
-    {
+    private void play() {
         if ( player.hasActiveHands() )
         {
             List<Action> actions = new ArrayList<Action>();
@@ -140,18 +116,16 @@ public final class GameHandler
                 actions.add( Action.SPLIT);
             }
             currentAction = userInterface.readUserInput( actions );
-        }
-        else
-        {
+        } else {
             HandInterface dealerHand = dealer.getCurrentHand();
-            while ( dealerHand.eval() < Hand.DEALER_HARD_STOP )
+            while ( dealerHand.eval() < Hand.dealer_stopping_value)
             {
                 Card card = deck.draw();
                 dealer.addCardToCurrentHand(card);
                 outputDraw(dealer, card);
             }
 
-            if ( dealerHand.eval() > Hand.BLACK_JACK )
+            if ( dealerHand.eval() > Hand.blackjackVal)
             {
                 userInterface.showText("Dealer busted!");
             }
@@ -161,11 +135,7 @@ public final class GameHandler
         }
     }
 
-    /**
-     * Processes a hit action
-     */
-    private void hit()
-    {
+    private void hit() {
         Card card = deck.draw();
         player.addCardToCurrentHand(card);
         HandInterface currentHand = player.getCurrentHand();
@@ -175,7 +145,7 @@ public final class GameHandler
             userInterface.showText("You busted!");
             player.completeCurrentHand();
         }
-        else if ( currentHand.eval() == Hand.BLACK_JACK )
+        else if ( currentHand.eval() == Hand.blackjackVal)
         {
             player.completeCurrentHand();
         }
@@ -185,11 +155,7 @@ public final class GameHandler
         currentAction = Action.PLAY;
     }
 
-    /**
-     * Completes a round of play and moves the game to the next round options
-     */
-    private void finalizeHand()
-    {
+    private void finalizeHand() {
         dealer.turnOffDealerPrinting();
         userInterface.showText("\nResults:");
         showHands();
@@ -199,38 +165,22 @@ public final class GameHandler
         dealer.clearHands();
     }
 
-    /**
-     * Displays the dealer and player's current hands
-     */
-    private void showHands()
-    {
+    private void showHands() {
         userInterface.showText( dealer.toString() );
         userInterface.showText( player.toString() );
     }
 
-    /**
-     * Displays a hands hand
-     *
-     * @param player
-     */
     private void showHand( Player player )
     {
         userInterface.showText( "\n" + player.toString() );
     }
 
-    /**
-     * Shows the card just drawn by a player
-     *
-     * @param player
-     * @param card
-     */
     private void outputDraw( Player player, Card card )
     {
         userInterface.showText("%s draw %s", player.Name, card);
     }
 
-    private void outputHandResults( int totalEarnings )
-    {
+    private void outputHandResults( int totalEarnings ) {
         userInterface.showText("%s %s $%d", player.Name, totalEarnings > 0 ? "won" : "lost", Math.abs(totalEarnings));
     }
 
