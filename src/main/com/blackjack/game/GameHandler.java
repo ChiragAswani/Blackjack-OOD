@@ -2,7 +2,7 @@ package com.blackjack.game;
 
 import com.blackjack.io.InputInterface;
 import com.blackjack.cards.Card;
-import com.blackjack.cards.PlayingDeck;
+import com.blackjack.cards.PlayingDeckInterface;
 import com.blackjack.hands.Player;
 
 import java.util.ArrayList;
@@ -10,14 +10,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public final class GameHandler {
-    private final PlayingDeck deck;
+    private final PlayingDeckInterface deck;
     private InputInterface userInterface;
     private final Player player;
     private final Player dealer;
     private final List<Action> initialActions;
     private Action currentAction;
 
-    public GameHandler(final InputInterface userInterface, final PlayingDeck deck, final Player player ) {
+    public GameHandler(final InputInterface userInterface, final PlayingDeckInterface deck, final Player player ) {
         this.userInterface = userInterface;
         this.deck = deck;
         this.player = player;

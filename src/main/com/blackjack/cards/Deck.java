@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-public final class Deck implements PlayingDeck {
+public final class Deck implements PlayingDeckInterface {
     public static final int CARDS_IN_A_DECK = 52;
 
     private ArrayList<Card> cards;

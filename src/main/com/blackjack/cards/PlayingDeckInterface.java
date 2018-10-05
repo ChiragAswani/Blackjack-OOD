@@ -1,7 +1,6 @@
 package com.blackjack.cards;
 
-public interface PlayingDeck
-{
+public interface PlayingDeckInterface {
     void shuffle();
     Card draw();
 }
