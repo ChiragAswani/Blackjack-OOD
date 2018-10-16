@@ -8,6 +8,7 @@ import com.blackjack.hands.Player;
 
 public final class App {
     public static void main(String[] args) {
+        System.out.println("Game: BlackJack");
         InputOutput readInputs = new InputOutput();
         PlayingDeckInterface playingDeck = new Deck();
         new GameHandler(readInputs, playingDeck, new Player()).run();

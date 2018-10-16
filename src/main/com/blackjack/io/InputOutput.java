@@ -70,6 +70,7 @@ public final class InputOutput implements InputInterface {
         buffer.append("Actions: ");
 
         for (int i = 0; i < count; i++) {
+            //System.out.println(options.get(i));
             validOptions.put(i + 1, options.get(i));
             if (i == count - 1){
                 buffer.append(String.format("%s(%d) \n", options.get(i), i + 1));
